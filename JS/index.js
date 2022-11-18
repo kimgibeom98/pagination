@@ -1,31 +1,26 @@
 const dataArrs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
 const pagingBox = document.querySelector('#paging');
 const showData = document.querySelector('#viewData tbody');
-const datalimit = 2; // 한 페이지당 나타낼 데이터의 갯수
-const totalPage = Math.ceil(dataArrs.length / datalimit);
+let datalimit = 5// 한 페이지당 나타낼 데이터의 갯수
 const pageCount = 5; //화면에 나타낼 페이징  갯수
 let maxNumber;
 let minNumber;
+
+function selectValuerelay(target) {
+  const targetValue = Number(target.options[target.selectedIndex].value);
+  datalimit = targetValue;
+  showPaging();
+}
 
 
 function clickEvethandling(e) {
   const pageNum = document.querySelector('button.active');
   pageNum.classList.remove('active');
-
-  // if (e.target.className === 'line-no') {
-  //   if (e.target.id === 'next-page') {
-  //     pageNum.nextElementSibling.classList.add('active');
-  //   } else if (e.target.id === 'prev-page') {
-  //     pageNum.previousElementSibling.classList.add('active');
-  //   }
-  // } else {
-    e.target.classList.add('active');
-  // }
+  e.target.classList.add('active');
   render();
 }
 
 function render() {
-
   const pageNumselect = document.querySelector('button.active');
   const currentPage = pageNumselect.innerText;
 
@@ -37,6 +32,7 @@ function render() {
 }
 
 function showPaging() {
+  const totalPage = Math.ceil(dataArrs.length / datalimit);
   let documentFragment = '';
   for (let i = 1; i <= totalPage; i++) {
     documentFragment += `<button type="button">${i}</button>`
@@ -65,19 +61,19 @@ pagingBox.addEventListener('click', clickEvethandling)
 // limit: 한 페이지 당 나타낼 데이터의 갯수
 
 
-// const currentPage = pageNum.innerText;
-// const pageGroup = Math.ceil(currentPage / pageCount)
-// const lastNumber = pageGroup *  pageCount;
-// if(lastNumber > totalPage){
-//   lastNumber = totalPage
-// }
-// const firstNumber = lastNumber - (pageCount - 1)
+const currentPage = pageNum.innerText;
+const pageGroup = Math.ceil(currentPage / pageCount)
+const lastNumber = pageGroup *  pageCount;
+if(lastNumber > totalPage){
+  lastNumber = totalPage
+}
+const firstNumber = lastNumber - (pageCount - 1)
 
-// maxNumber = currentPage * datalimit;
-// minNumber = maxNumber - datalimit;
+maxNumber = currentPage * datalimit;
+minNumber = maxNumber - datalimit;
 
-// const next = lastNumber + 1;
-// const prev = firstNumber - 1;
-// for(let i  = firstNumber; i < lastNumber; i ++){
-//   html += `<button class="pageNumber" id="page_${i}">${i}</button>`
-// }
+const next = lastNumber + 1;
+const prev = firstNumber - 1;
+for(let i  = firstNumber; i < lastNumber; i ++){
+  html += `<button class="pageNumber" id="page_${i}">${i}</button>`
+}
