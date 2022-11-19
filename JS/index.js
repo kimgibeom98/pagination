@@ -32,11 +32,24 @@ function render() {
 }
 
 function showPaging() {
-  const totalPage = Math.ceil(dataArrs.length / datalimit);
+  const pageNumselect = document.querySelector('button.active');
+  const pageNum = pageNumselect === null ? 1 : pageNumselect.innerText;
+
+  const totalPage = Math.ceil(dataArrs.length / datalimit); //총 페이지 수
+  const pagegroup = Math.ceil(pageNum / pageCount); //화면에 보여질 페이지 그룹
+
+  let last = pagegroup * pageCount;
+  if (last > totalPage) last = totalPage;
+  const first = last - (pageCount - 1) <= 0 ? 1 : last - (pageCount - 1);
+
+  const next = last + 1;
+  const prev = first - 1;
+
   let documentFragment = '';
-  for (let i = 1; i <= totalPage; i++) {
-    documentFragment += `<button type="button">${i}</button>`
-  }
+     for (let i = first; i <= last; i++) {
+       documentFragment += `<button type="button">${i}</button>`
+     }
+
   pagingBox.innerHTML = `
 <button id="first-page" class="line-no" type="button"><<</button>
 <button id="prev-page" class="line-no" type="button"><</button>
@@ -44,9 +57,13 @@ ${documentFragment}
 <button id="next-page" class="line-no" type="button">></button>
 <button id="last-page" class="line-no" type="button">>></button>
 `
-  const pageNum = document.querySelectorAll('button');
-  pageNum[2].classList.add('active');
+  const pageList = document.querySelectorAll('button');
+  pageList[2].classList.add('active');
   render();
+}
+
+function nextPaging(){
+
 }
 
 showPaging();
