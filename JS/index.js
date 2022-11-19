@@ -34,10 +34,12 @@ function clickEvethandling(e) {
 //   showData.innerHTML = resultData.map((el) => `<tr><td>${el}</td></tr>`).join("");
 // }
 
-function showPaging() {
-  const pageNumselect = document.querySelector('button.active');
-  pageNum = pageNumselect === null ? 1 : pageNumselect.innerText;
-
+function showPaging(pageNum) {
+  // const pageNumselect = document.querySelector('button.active');
+  // pageNum = pageNumselect === null ? 1 : pageNumselect.innerText;
+  if(pageNum === undefined){
+    pageNum = 1;
+  }
   const totalPage = Math.ceil(dataArrs.length / datalimit); //총 페이지 수
   const pagegroup = Math.ceil(pageNum / pageCount); //화면에 보여질 페이지 그룹
 
@@ -50,7 +52,7 @@ function showPaging() {
 
   let documentFragment = '';
   for (let i = firstNum; i <= lastNum; i++) {
-    documentFragment += `<button type="button">${i}</button>`
+    documentFragment += `<button onclick="changePagingnum(this);" type="button">${i}</button>`
   }
 
   pagingBox.innerHTML = `
@@ -61,44 +63,22 @@ ${documentFragment}
 <a href="#" id="last-page" type="button">>></a>
 `
   const pageList = document.querySelector('button');
-  pageList.classList.add('active');
+  pageList.classList.add('active')
   // render();
 }
 
 function changePagingnum(target) {
-
-  if (target.innerText === '>') {
+  if (typeof (target) === Number) {
+    const pageNumselect = document.querySelector('button.active');
+    pageNum = pageNumselect === null ? 1 : pageNumselect.innerText;
+  } else if (target.innerText === '>') {
     pageNum = next
-  }else{
-    pageNum = prev
+  } else {
+    pageNum = prev;
   }
+  return pageNum
+  // target.innerText === '>' ? pageNum = next : pageNum = prev;
 
-  const totalPage = Math.ceil(dataArrs.length / datalimit); //총 페이지 수
-  const pagegroup = Math.ceil(pageNum / pageCount); //화면에 보여질 페이지 그룹
-
-  let lastNum = pagegroup * pageCount;
-  if (lastNum > totalPage) lastNum = totalPage;
-  const firstNum = lastNum - (pageCount - 1) <= 0 ? 1 : lastNum - (pageCount - 1);
-
-  next = lastNum + 1;
-  prev = firstNum - 1;
-
-  let documentFragment = '';
-  for (let i = firstNum; i <= lastNum; i++) {
-    documentFragment += `<button type="button">${i}</button>`
-  }
-
-  pagingBox.innerHTML = `
-<a href="#" id="first-page" type="button"><<</a>
-<a href="#" onclick="changePagingnum(this);" id="prev-page" type="button"><</a>
-${documentFragment}
-<a href="#" onclick="changePagingnum(this);" id="next-page" type="button">></a>
-<a href="#" id="last-page" type="button">>></a>
-`
-  const pageList = document.querySelector('button');
-  pageList.classList.add('active');
-
-  // console.log()
 }
 
 showPaging();
