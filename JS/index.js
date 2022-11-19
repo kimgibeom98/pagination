@@ -66,10 +66,13 @@ ${documentFragment}
 }
 
 function changePagingnum(target) {
-  
+
   if (target.innerText === '>') {
     pageNum = next
+  }else{
+    pageNum = prev
   }
+
   const totalPage = Math.ceil(dataArrs.length / datalimit); //총 페이지 수
   const pagegroup = Math.ceil(pageNum / pageCount); //화면에 보여질 페이지 그룹
 
