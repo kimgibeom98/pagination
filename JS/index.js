@@ -16,14 +16,20 @@ function selectValuerelay(target) {
 
 function clickEvethandling(e) {
   const pageNumselect  = document.querySelector('button.active');
-  pageNumselect .classList.remove('active');
+  pageNumselect.classList.remove('active');
   e.target.classList.add('active');
-  
+  console.log(e.target)
   if (e.target.innerText === '>') {
     pageNum = next;
     showPaging(pageNum);
   } else if (e.target.innerText === '<') {
     pageNum = prev;
+    showPaging(pageNum);
+  } else if(e.target.innerText === '>>'){
+    pageNum =  Math.ceil(dataArrs.length / datalimit);
+    showPaging(pageNum);
+  } else if(e.target.innerText === '<<'){
+    pageNum = 1;
     showPaging(pageNum);
   } else {
     pageNum = e.target.innerText;
@@ -45,7 +51,6 @@ function render(target) {
 
 
 function showPaging(pageNum) {
-  console.log(pageNum)
   if (pageNum === undefined) {
     pageNum = 1;
   }
@@ -71,9 +76,12 @@ function showPaging(pageNum) {
     <button id="next-page" type="button">></button>
     <button id="last-page" type="button">>></button>
   `
-
-    const pageList = document.querySelectorAll('button')
+  const pageList = document.querySelectorAll('button')
+  if(pageNum === totalPage){
+    pageList[pageList.length - 3].classList.add('active');
+  }else{
     pageList[2].classList.add('active')
+  }
   render();
 }
 
