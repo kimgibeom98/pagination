@@ -1,8 +1,8 @@
 const dataArrs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
 const pagingBox = document.querySelector('#paging');
 const showData = document.querySelector('#viewData tbody');
-let datalimit = 2// 한 페이지당 나타낼 데이터의 갯수
-const pageCount = 5; //화면에 나타낼 페이징  갯수
+const pageCount = 5;
+let datalimit = 2 
 let pageNum;
 let next;
 let prev;
@@ -17,7 +17,7 @@ function clickEvethandling(e) {
   const pageNumselect = document.querySelector('button.active');
   pageNumselect.classList.remove('active');
   e.target.classList.add('active');
-  console.log(e.target)
+  
   if (e.target.innerText === '>') {
     pageNum = next;
     showPaging(pageNum);
@@ -101,11 +101,8 @@ function showPaging(pageNum) {
   pagingBox.appendChild(fragmentPage);
 
   const pageList = document.querySelectorAll('button')
-  if (pageNum === totalPage) {
-    pageList[pageList.length - 1].classList.add('active');
-  } else {
-    pageList[0].classList.add('active')
-  }
+  pageNum === totalPage ? pageList[pageList.length - 1].classList.add('active') : pageList[0].classList.add('active');
+
   render();
 }
 
