@@ -15,26 +15,26 @@ function selectValuerelay(target) {
 
 
 function clickEvethandling(e) {
-  let pageNumselect = document.querySelector('button.active');
-  pageNumselect.classList.remove('active');
+  const pageNumselect  = document.querySelector('button.active');
+  pageNumselect .classList.remove('active');
   e.target.classList.add('active');
   
   if (e.target.innerText === '>') {
     pageNum = next;
+    showPaging(pageNum);
   } else if (e.target.innerText === '<') {
     pageNum = prev;
+    showPaging(pageNum);
   } else {
     pageNum = e.target.innerText;
   }
 
-  showPaging(pageNum);
-  render(e.target.innerText);
+  render(pageNum);
 }
 
 function render(target) {
-  if(target === undefined)target = 1;
+  if (target === undefined) target = 1;
   const currentPage = target;
-  console.log(currentPage)
 
   const maxNumber = currentPage * datalimit;
   const minNumber = maxNumber - datalimit;
@@ -43,11 +43,12 @@ function render(target) {
   showData.innerHTML = resultData.map((el) => `<tr><td>${el}</td></tr>`).join("");
 }
 
+
 function showPaging(pageNum) {
-  if(pageNum === undefined){
+  console.log(pageNum)
+  if (pageNum === undefined) {
     pageNum = 1;
   }
-  console.log(pageNum)
   const totalPage = Math.ceil(dataArrs.length / datalimit); //총 페이지 수
   const pagegroup = Math.ceil(pageNum / pageCount); //화면에 보여질 페이지 그룹
 
@@ -70,12 +71,12 @@ function showPaging(pageNum) {
     <button id="next-page" type="button">></button>
     <button id="last-page" type="button">>></button>
   `
-  const pageList = document.querySelectorAll('button');
-  pageList[2].classList.add('active')
-  // render();
+
+    const pageList = document.querySelectorAll('button')
+    pageList[2].classList.add('active')
+  render();
 }
 
 showPaging();
-render();
 
 pagingBox.addEventListener('click', clickEvethandling)
