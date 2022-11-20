@@ -7,7 +7,6 @@ let pageNum;
 let next;
 let prev;
 
-
 function selectValuerelay(target) {
   const targetValue = Number(target.options[target.selectedIndex].value);
   datalimit = targetValue;
@@ -16,30 +15,39 @@ function selectValuerelay(target) {
 
 
 function clickEvethandling(e) {
-  const pageNum = document.querySelector('button.active');
-  pageNum.classList.remove('active');
+  let pageNumselect = document.querySelector('button.active');
+  pageNumselect.classList.remove('active');
   e.target.classList.add('active');
-  // render();
+  
+  if (e.target.innerText === '>') {
+    pageNum = next;
+  } else if (e.target.innerText === '<') {
+    pageNum = prev;
+  } else {
+    pageNum = e.target.innerText;
+  }
+
+  showPaging(pageNum);
+  render(e.target.innerText);
 }
 
-// function render() {
-//   const pageNumselect = document.querySelector('button.active');
-//   console.log(pageNumselect)
-//   const currentPage = pageNumselect.innerText;
+function render(target) {
+  if(target === undefined)target = 1;
+  const currentPage = target;
+  console.log(currentPage)
 
-//   const maxNumber = currentPage * datalimit;
-//   const minNumber = maxNumber - datalimit;
+  const maxNumber = currentPage * datalimit;
+  const minNumber = maxNumber - datalimit;
 
-//   const resultData = dataArrs.slice(minNumber, maxNumber);
-//   showData.innerHTML = resultData.map((el) => `<tr><td>${el}</td></tr>`).join("");
-// }
+  const resultData = dataArrs.slice(minNumber, maxNumber);
+  showData.innerHTML = resultData.map((el) => `<tr><td>${el}</td></tr>`).join("");
+}
 
 function showPaging(pageNum) {
-  // const pageNumselect = document.querySelector('button.active');
-  // pageNum = pageNumselect === null ? 1 : pageNumselect.innerText;
   if(pageNum === undefined){
     pageNum = 1;
   }
+  console.log(pageNum)
   const totalPage = Math.ceil(dataArrs.length / datalimit); //총 페이지 수
   const pagegroup = Math.ceil(pageNum / pageCount); //화면에 보여질 페이지 그룹
 
@@ -52,34 +60,22 @@ function showPaging(pageNum) {
 
   let documentFragment = '';
   for (let i = firstNum; i <= lastNum; i++) {
-    documentFragment += `<button onclick="changePagingnum(this);" type="button">${i}</button>`
+    documentFragment += `<button type="button">${Number(i)}</button>`
   }
 
   pagingBox.innerHTML = `
-<a href="#" id="first-page" type="button"><<</a>
-<a href="#" onclick="changePagingnum(this);" id="prev-page" type="button"><</a>
-${documentFragment}
-<a href="#" onclick="changePagingnum(this);" id="next-page" type="button">></a>
-<a href="#" id="last-page" type="button">>></a>
-`
-  const pageList = document.querySelector('button');
-  pageList.classList.add('active')
+    <button id="first-page" type="button"><<</button>
+    <button id="prev-page" type="button"><</button>
+    ${documentFragment}
+    <button id="next-page" type="button">></button>
+    <button id="last-page" type="button">>></button>
+  `
+  const pageList = document.querySelectorAll('button');
+  pageList[2].classList.add('active')
   // render();
 }
 
-function changePagingnum(target) {
-  if (typeof (target) === Number) {
-    const pageNumselect = document.querySelector('button.active');
-    pageNum = pageNumselect === null ? 1 : pageNumselect.innerText;
-  } else if (target.innerText === '>') {
-    pageNum = next
-  } else {
-    pageNum = prev;
-  }
-  return pageNum
-  // target.innerText === '>' ? pageNum = next : pageNum = prev;
-
-}
-
 showPaging();
+render();
+
 pagingBox.addEventListener('click', clickEvethandling)
