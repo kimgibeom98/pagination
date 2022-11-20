@@ -13,9 +13,8 @@ function selectValuerelay(target) {
   showPaging();
 }
 
-
 function clickEvethandling(e) {
-  const pageNumselect  = document.querySelector('button.active');
+  const pageNumselect = document.querySelector('button.active');
   pageNumselect.classList.remove('active');
   e.target.classList.add('active');
   console.log(e.target)
@@ -25,10 +24,10 @@ function clickEvethandling(e) {
   } else if (e.target.innerText === '<') {
     pageNum = prev;
     showPaging(pageNum);
-  } else if(e.target.innerText === '>>'){
-    pageNum =  Math.ceil(dataArrs.length / datalimit);
+  } else if (e.target.innerText === '>>') {
+    pageNum = Math.ceil(dataArrs.length / datalimit);
     showPaging(pageNum);
-  } else if(e.target.innerText === '<<'){
+  } else if (e.target.innerText === '<<') {
     pageNum = 1;
     showPaging(pageNum);
   } else {
@@ -64,23 +63,48 @@ function showPaging(pageNum) {
   next = lastNum + 1;
   prev = firstNum - 1;
 
-  let documentFragment = '';
-  for (let i = firstNum; i <= lastNum; i++) {
-    documentFragment += `<button type="button">${Number(i)}</button>`
+
+  while (pagingBox.firstChild) { 
+    pagingBox.removeChild(pagingBox.firstChild);
+  }
+  
+  const fragmentPage = document.createDocumentFragment();
+  
+  if (prev > 0) {
+    const allprevBtn = document.createElement('a');
+    allprevBtn.insertAdjacentHTML("beforeend","<<");
+
+    const prevBtn = document.createElement('a');
+    prevBtn.insertAdjacentHTML("beforeend", "<");
+
+    fragmentPage.appendChild(allprevBtn);
+    fragmentPage.appendChild(prevBtn);
   }
 
-  pagingBox.innerHTML = `
-    <button id="first-page" type="button"><<</button>
-    <button id="prev-page" type="button"><</button>
-    ${documentFragment}
-    <button id="next-page" type="button">></button>
-    <button id="last-page" type="button">>></button>
-  `
+  for (let i = firstNum; i <= lastNum; i++) {
+    const numberBtn = document.createElement('button');
+    numberBtn.insertAdjacentHTML("beforeend",i)
+    fragmentPage.appendChild(numberBtn);
+  }
+
+  if (lastNum < totalPage) {
+    const nextBtn = document.createElement('a');
+    nextBtn.insertAdjacentHTML("beforeend", ">");
+
+    const allnextBtn = document.createElement('a');
+    allnextBtn.insertAdjacentHTML("beforeend", ">>");
+
+    fragmentPage.appendChild(nextBtn);
+    fragmentPage.appendChild(allnextBtn);
+  }
+
+  pagingBox.appendChild(fragmentPage);
+
   const pageList = document.querySelectorAll('button')
-  if(pageNum === totalPage){
-    pageList[pageList.length - 3].classList.add('active');
-  }else{
-    pageList[2].classList.add('active')
+  if (pageNum === totalPage) {
+    pageList[pageList.length - 1].classList.add('active');
+  } else {
+    pageList[0].classList.add('active')
   }
   render();
 }

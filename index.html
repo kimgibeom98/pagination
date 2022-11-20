@@ -7,7 +7,10 @@
     <title>Document</title>
     <script defer src="JS/index.js"></script>
     <style>
-        #paging{display: flex; justify-content: center;}
+        .paging-full{width: 100%; text-align: center;}
+        #paging{display: inline;}
+        #paging > a{text-decoration: none; font-size: 15px; color: black;  padding: 0 3px;}
+        #paging > a,
         #paging > button{border: 1px solid #ddd; font-size: 15px; cursor: pointer;  background-color: white;}
         #paging > button.active{color: red;}
         #content{max-width: 500px; margin: 0 auto; width: 100%;}
@@ -40,8 +43,10 @@
                 </tbody>
             </table>
         </div>
-        <div id="paging">
+        <div class="paging-full">
+            <div id="paging">
 
+            </div>
         </div>
     </div>
 </body>
