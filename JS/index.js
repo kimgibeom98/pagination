@@ -55,8 +55,7 @@ function render(target) {
 
 
 function showPaging(pageNum, lastpageNum) {
-  if (pageNum === undefined)pageNum = 1;
-
+  pageNum = pageNum ?? 1;
   const fragmentPage = document.createDocumentFragment();
   const totalPage = Math.ceil(dataArrs.length / datalimit);
   const pagegroup = Math.ceil(pageNum / pageCount);
