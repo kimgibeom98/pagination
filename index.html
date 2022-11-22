@@ -1,53 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script defer src="JS/index.js"></script>
-    <style>
-        .paging-full{width: 100%; text-align: center;}
-        #paging{display: inline;}
-        #paging > a{text-decoration: none; font-size: 15px; color: black;  padding: 0 3px;}
-        #paging > a,
-        #paging > button{border: 1px solid #ddd; font-size: 15px; cursor: pointer;  background-color: white;}
-        #paging > button.active{color: red;}
-        #content{max-width: 500px; margin: 0 auto; width: 100%;}
-        #viewData table{table-layout: fixed; width: 100%;}
-        #viewData table thead tr th{height: 40px; vertical-align: middle; background-color: #ddd; font-size: 14px; text-align: center;}
-        .select-box{text-align: right; margin-bottom: 15px;}
-    </style>
-</head>
-<body>
-    <!-- 페이징 기능구현 -->
-    <div id="content">
-        <div class="select-box">
-            <select  name="" id="" onchange="selectValuerelay(this);">
-                <option value="5">5개씩</option>
-                <option value="15">15개씩</option>
-            </select>
-        </div>
-        <div id="viewData">
-            <table>
-                <thead>
-                    <tr>
-                        <th>name</th>
-                        <th>title</th>
-                        <th>age</th>
-                        <th>email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div class="paging-full">
-            <div id="paging">
 
-            </div>
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script defer src="JS/index.js"></script>
+  <style>
+    .paging-full {width: 100%;text-align: center;}
+    #paging {display: inline;}
+    #paging>a {text-decoration: none;font-size: 15px;color: black;padding: 0 3px;}
+    #paging>a,
+    #paging>button {border: 1px solid #ddd;font-size: 15px;cursor: pointer;background-color: white;}
+    #paging>button.active {color: red;}
+    #content {max-width: 500px;margin: 0 auto;width: 100%;}
+    #viewData table {table-layout: fixed;width: 100%;}
+    #viewData table thead tr th {height: 40px;vertical-align: middle;background-color: #ddd;font-size: 14px;text-align: center;}
+    .select-box {text-align: right;margin-bottom: 15px;}
+  </style>
+</head>
+
+<body>
+  <!-- 페이징 기능구현 -->
+  <div id="content">
+    <div class="select-box">
+      <select name="" id="" onchange="selectValuerelay(this);">
+        <option value="5">5개씩</option>
+        <option value="15">15개씩</option>
+      </select>
     </div>
+    <div id="viewData">
+      <table>
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>title</th>
+            <th>age</th>
+            <th>email</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="paging-full">
+      <div id="paging">
+
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
