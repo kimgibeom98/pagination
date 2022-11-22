@@ -1,6 +1,6 @@
-const dataArrs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const dataArrs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 const pagingBox = document.querySelector('#paging');
-const showData = document.querySelector('#viewData tbody');
+const body = document.querySelector('#viewData tbody');
 const pageCount = 5;
 let datalimit = 2
 let pageNum;
@@ -16,26 +16,27 @@ function selectValuerelay(target) {
 
 function clickEvethandling(e) {
   const pageNumselect = document.querySelector('button.active');
+  const totalPage = Math.ceil(dataArrs.length / datalimit);
+  const Remainder = (totalPage % pageCount);
+  
   pageNumselect.classList.remove('active');
   e.target.classList.add('active');
 
-  if (e.target.innerText === '>') {
-    pageNum = next;
+  if(e.target.tagName === "A"){
+    if(e.target.innerText === '>'){
+      pageNum = next;
+    }else if(e.target.innerText === '<'){
+      pageNum = prev;
+    }else if(e.target.innerText === '>>'){
+      Remainder === 0 ? pageNum = totalPage - 4 : pageNum = totalPage - Remainder + 1;
+      showPaging(pageNum, totalPage);
+      render(totalPage);
+      return
+    }else{
+      pageNum = 1;
+    }
     showPaging(pageNum);
-  } else if (e.target.innerText === '<') {
-    pageNum = prev;
-    showPaging(pageNum);
-  } else if (e.target.innerText === '>>') {
-    const lastpageNum = Math.ceil(dataArrs.length / datalimit);
-    const Remainder = (lastpageNum % pageCount);
-    Remainder === 0 ? pageNum = lastpageNum - 4 : pageNum = lastpageNum - Remainder + 1;
-    showPaging(pageNum, lastpageNum);
-    render(lastpageNum);
-    return
-  } else if (e.target.innerText === '<<') {
-    pageNum = 1;
-    showPaging(pageNum);
-  } else {
+  }else{
     pageNum = e.target.innerText;
   }
 
@@ -43,14 +44,12 @@ function clickEvethandling(e) {
 }
 
 function render(target) {
-  if (target === undefined) target = 1;
-  const currentPage = target;
-
-  const maxNumber = currentPage * datalimit;
+  target = target ?? 1;
+  const maxNumber = target * datalimit;
   const minNumber = maxNumber - datalimit;
 
   const resultData = dataArrs.slice(minNumber, maxNumber);
-  showData.innerHTML = resultData.map((el) => `<tr><td>${el}</td></tr>`).join("");
+  body.innerHTML = resultData.map((el) => `<tr><td>${el}</td></tr>`).join("");
 }
 
 
@@ -69,6 +68,7 @@ function showPaging(pageNum, lastpageNum) {
   while (pagingBox.firstChild) {
     pagingBox.removeChild(pagingBox.firstChild);
   }
+  
   if (prev > 0) {
     const allprevBtn = document.createElement('a');
     allprevBtn.insertAdjacentHTML("beforeend", "<<");
