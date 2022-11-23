@@ -1,12 +1,22 @@
-const dataArrs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+const END_POINT = 'http://localhost';
+const PORT = 3000;
 const pagingBox = document.querySelector('#paging');
 const body = document.querySelector('#viewData tbody');
 const pageCount = 5;
-let datalimit = 2
-let pageNum;
-let next;
-let prev;
-let lastNum;
+let datalimit = 5;
+let pageNum, next, prev, lastNum, accounts;
+
+async function requstData() {
+  try {
+    const response = await fetch(`${END_POINT}:${PORT}/user`, {
+      method: 'GET'
+    })
+    accounts = await response.json();
+    showPaging();
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 function selectValuerelay(target) {
   const targetValue = Number(target.options[target.selectedIndex].value);
@@ -16,30 +26,29 @@ function selectValuerelay(target) {
 
 function clickEvethandling(e) {
   const pageNumselect = document.querySelector('button.active');
-  const totalPage = Math.ceil(dataArrs.length / datalimit);
+  const totalPage = Math.ceil(accounts.length / datalimit);
   const Remainder = (totalPage % pageCount);
-  
+
   pageNumselect.classList.remove('active');
   e.target.classList.add('active');
 
-  if(e.target.tagName === "A"){
-    if(e.target.innerText === '>'){
+  if (e.target.tagName === "A") {
+    if (e.target.innerText === '>') {
       pageNum = next;
-    }else if(e.target.innerText === '<'){
+    } else if (e.target.innerText === '<') {
       pageNum = prev;
-    }else if(e.target.innerText === '>>'){
+    } else if (e.target.innerText === '>>') {
       Remainder === 0 ? pageNum = totalPage - 4 : pageNum = totalPage - Remainder + 1;
       showPaging(pageNum, totalPage);
       render(totalPage);
       return
-    }else{
+    } else {
       pageNum = 1;
     }
     showPaging(pageNum);
-  }else{
+  } else {
     pageNum = e.target.innerText;
   }
-
   render(pageNum);
 }
 
@@ -48,15 +57,21 @@ function render(target) {
   const maxNumber = target * datalimit;
   const minNumber = maxNumber - datalimit;
 
-  const resultData = dataArrs.slice(minNumber, maxNumber);
-  body.innerHTML = resultData.map((el) => `<tr><td>${el}</td></tr>`).join("");
+  const resultData = accounts.slice(minNumber, maxNumber);
+  body.innerHTML = resultData.map((el) => `
+  <tr>
+    <td>${el.name}</td>
+    <td>${el.job}</td>
+    <td>${el.age}</td>
+    <td>${el.email}</td>
+  </tr>`
+  ).join("");
 }
-
 
 function showPaging(pageNum, lastpageNum) {
   pageNum = pageNum ?? 1;
   const fragmentPage = document.createDocumentFragment();
-  const totalPage = Math.ceil(dataArrs.length / datalimit);
+  const totalPage = Math.ceil(accounts.length / datalimit);
   const pagegroup = Math.ceil(pageNum / pageCount);
 
   lastNum = pagegroup * pageCount;
@@ -68,7 +83,7 @@ function showPaging(pageNum, lastpageNum) {
   while (pagingBox.firstChild) {
     pagingBox.removeChild(pagingBox.firstChild);
   }
-  
+
   if (prev > 0) {
     const allprevBtn = document.createElement('a');
     allprevBtn.insertAdjacentHTML("beforeend", "<<");
@@ -103,8 +118,7 @@ function showPaging(pageNum, lastpageNum) {
   render();
 }
 
-showPaging();
-
+requstData();
 pagingBox.addEventListener('click', clickEvethandling)
 
 

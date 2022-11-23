@@ -8,15 +8,17 @@
   <title>Document</title>
   <script defer src="JS/index.js"></script>
   <style>
-    .paging-full {width: 100%;text-align: center;}
-    #paging {display: inline;}
-    #paging>a {text-decoration: none;font-size: 15px;color: black;padding: 0 3px;}
+    .paging-full {width: 100%;text-align: center; display: flex; align-items: center; justify-content: center;}
+    #paging {display: flex;}
+    #paging>a {text-decoration: none; color: black; padding: 0 3px; display: inline-block;}
     #paging>a,
-    #paging>button {border: 1px solid #ddd;font-size: 15px;cursor: pointer;background-color: white;}
+    #paging>button {border: 1px solid #ddd;font-size: 15px; box-sizing: border-box; cursor: pointer; height: 22px; background-color: white;}
     #paging>button.active {color: red;}
     #content {max-width: 500px;margin: 0 auto;width: 100%;}
-    #viewData table {table-layout: fixed;width: 100%;}
-    #viewData table thead tr th {height: 40px;vertical-align: middle;background-color: #ddd;font-size: 14px;text-align: center;}
+    #viewData{margin-bottom: 30px;}
+    #viewData table {table-layout: fixed; width: 100%; border-collapse:collapse; border-spacing: 0;}
+    #viewData table thead tr th {border: 1px solid #d5d8da; height: 40px;vertical-align: middle; background-color: #f6f8fa;font-size: 14px;text-align: center;}
+    #viewData table tbody tr td{height: 35px; box-sizing: border-box; vertical-align: middle; font-size: 14px; background-color: white; text-align: center; border: 1px solid #d5d8da;}
     .select-box {text-align: right;margin-bottom: 15px;}
   </style>
 </head>
@@ -32,10 +34,16 @@
     </div>
     <div id="viewData">
       <table>
+        <colgroup>
+          <col width="20%">
+          <col width="20%">
+          <col width="20%">
+          <col width="40%">
+        </colgroup>
         <thead>
           <tr>
             <th>name</th>
-            <th>title</th>
+            <th>job</th>
             <th>age</th>
             <th>email</th>
           </tr>
